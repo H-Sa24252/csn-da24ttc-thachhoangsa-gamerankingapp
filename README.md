@@ -1,5 +1,5 @@
 # ỨNG DỤNG QUẢN LÝ VÀ XẾP HẠNG NGƯỜI CHƠI GAME
-> **Đồ án cơ sở ngành Công nghệ Thông tin – Trường Đại học Trà Vinh**
+> **Đồ án cơ sở ngành Công nghệ Thông tin – Đại học Trà Vinh**
 
 ## 📋 THÔNG TIN TÁC GIẢ & GIẢNG VIÊN HƯỚNG DẪN
 * **Họ và tên sinh viên:** Thạch Hoàng Sa
