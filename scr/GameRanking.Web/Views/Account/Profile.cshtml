@@ -1,0 +1,22 @@
+@model ProfileViewModel
+@{
+    ViewData["Title"] = "Hồ sơ của tôi";
+}
+<h1>Hồ sơ của tôi</h1>
+<p>Email đăng nhập: @Model.Email</p>
+<form asp-action="Profile" method="post" class="col-md-6">
+    <div asp-validation-summary="All" class="text-danger" role="alert"></div>
+    <label asp-for="Input.DisplayName" class="form-label"></label>
+    <input asp-for="Input.DisplayName" class="form-control mb-3" autocomplete="nickname" maxlength="80" />
+    <button type="submit" class="btn btn-primary">Lưu hồ sơ</button>
+</form>
+<h2 class="mt-4">Thành tích cá nhân</h2>
+<dl class="row">
+    <dt class="col-sm-3">Tổng điểm</dt><dd class="col-sm-9">@Model.Player.TotalScore</dd>
+    <dt class="col-sm-3">Tổng EXP</dt><dd class="col-sm-9">@Model.Player.TotalExp</dd>
+    <dt class="col-sm-3">Cấp độ</dt><dd class="col-sm-9">@Model.Player.Level</dd>
+    <dt class="col-sm-3">Số trận thắng</dt><dd class="col-sm-9">@Model.Player.Wins</dd>
+    <dt class="col-sm-3">Số trận thua</dt><dd class="col-sm-9">@Model.Player.Losses</dd>
+    <dt class="col-sm-3">Tổng số trận</dt><dd class="col-sm-9">@Model.Player.TotalMatches</dd>
+    <dt class="col-sm-3">Tỷ lệ thắng</dt><dd class="col-sm-9">@Model.Player.WinRate.ToString("0.##%")</dd>
+</dl>

@@ -20,6 +20,21 @@
 ---
 
 ## 🛠️ HƯỚNG DẪN CÀI ĐẶT VÀ CHẠY CHƯƠNG TRÌNH (`/setup`)
-1. Clone repository về máy:
-   ```bash
-   git clone [https://github.com/H-Sa24252/csn-da24ttc-thachhoangsa-gamerankingapp.git](https://github.com/H-Sa24252/csn-da24ttc-thachhoangsa-gamerankingapp.git)
+Cài .NET SDK 10.0.403 và chuẩn bị SQL Server có instance `.\SQLDEV`. Tài khoản Windows chạy migration cần quyền tạo hoặc cập nhật database `GameRankingDemo`. Ứng dụng dùng Windows Authentication. Tùy chọn tin cậy chứng chỉ SQL trong cấu hình phục vụ demo trên máy cục bộ.
+
+Chạy các lệnh từ thư mục gốc repository:
+
+```powershell
+dotnet --version
+dotnet restore GameRanking.slnx
+dotnet tool restore
+dotnet build GameRanking.slnx --no-restore
+dotnet ef database update --project scr/GameRanking.Web --no-build
+dotnet run --project scr/GameRanking.Web --no-build --launch-profile http
+```
+
+Mở [trang chủ](http://localhost:5049), sau đó vào **Xếp hạng tổng điểm** hoặc **Xếp hạng cấp độ** để xem danh sách người chơi. Khi bảng người chơi còn trống, ứng dụng tạo 10 hồ sơ mẫu. Dùng **Đăng ký** để tạo tài khoản riêng và **Hồ sơ của tôi** để xem thành tích hoặc sửa tên hiển thị. Có thể mở `GameRanking.slnx` trong Visual Studio 2026 và chọn `GameRanking.Web` làm project khởi động.
+
+Ứng dụng dùng ASP.NET Core MVC, Identity và EF Core trên `net10.0`. Hai bảng xếp hạng dùng Merge Sort và Dense Ranking. Lược đồ đã chuẩn bị bảng kết quả cho mô phỏng trận và lịch sử cá nhân ở Chat 06.
+
+[Thiết kế dữ liệu ban đầu](thesis/html/thiet-ke-du-lieu-ban-dau.md) · [Kết quả kiểm thử v0.1](thesis/html/kiem-thu-gameranking-v0.1.md)

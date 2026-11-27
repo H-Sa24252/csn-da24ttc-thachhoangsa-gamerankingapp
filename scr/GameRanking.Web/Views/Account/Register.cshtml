@@ -1,0 +1,15 @@
+@model RegisterInput
+@{
+    ViewData["Title"] = "Đăng ký";
+}
+<h1>Đăng ký</h1>
+<form asp-action="Register" method="post" class="col-md-6">
+    <div asp-validation-summary="All" class="text-danger" role="alert"></div>
+    <label asp-for="DisplayName" class="form-label"></label>
+    <input asp-for="DisplayName" class="form-control mb-3" autocomplete="nickname" maxlength="80" />
+    <label asp-for="Email" class="form-label"></label>
+    <input asp-for="Email" class="form-control mb-3" autocomplete="email" />
+    <label asp-for="Password" class="form-label">Mật khẩu</label>
+    <input asp-for="Password" class="form-control mb-3" autocomplete="new-password" />
+    <button type="submit" class="btn btn-primary">Tạo tài khoản</button>
+</form>
