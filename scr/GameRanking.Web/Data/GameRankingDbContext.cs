@@ -50,6 +50,7 @@ public sealed class GameRankingDbContext(DbContextOptions<GameRankingDbContext> 
                 .OnDelete(DeleteBehavior.Restrict);
             match.HasIndex(item => new { item.WinnerPlayerId, item.PlayedAtUtc });
             match.HasIndex(item => new { item.LoserPlayerId, item.PlayedAtUtc });
+            match.HasIndex(item => item.RequestId).IsUnique();
         });
     }
 

@@ -30,6 +30,7 @@
                     <ul class="navbar-nav">
                     @if (User.Identity?.IsAuthenticated == true)
                     {
+                        <li class="nav-item"><a class="nav-link text-dark" asp-controller="Matches" asp-action="Index">Mô phỏng trận đấu</a></li>
                         <li class="nav-item"><a class="nav-link text-dark" asp-controller="Account" asp-action="Profile">Hồ sơ của tôi</a></li>
                         <li class="nav-item">
                             <form asp-controller="Account" asp-action="Logout" method="post">

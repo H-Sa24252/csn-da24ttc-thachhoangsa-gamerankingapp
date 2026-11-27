@@ -1,0 +1,9 @@
+@model IReadOnlyList<RankedPlayer>
+@foreach (var row in Model)
+{
+    <tr>
+        <td>@row.Rank</td><th scope="row">@row.Player.DisplayName</th><td>@row.Player.TotalScore</td>
+        <td>@row.Player.Level</td><td>@row.Player.TotalExp</td><td>@row.Player.Wins</td>
+        <td>@row.Player.Losses</td><td>@row.Player.TotalMatches</td><td>@row.Player.WinRate.ToString("0.##%")</td>
+    </tr>
+}

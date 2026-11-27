@@ -26,3 +26,9 @@ Chủ dự án đã duyệt mô hình, 10 hồ sơ mẫu và phạm vi lịch s�
 - Tính cấp độ bằng `1 + TotalExp / 500` với phép chia nguyên, tổng số trận bằng `Wins + Losses`, tỷ lệ thắng bằng `100 × Wins / TotalMatches` và bằng 0% khi chưa đấu.
 - Bảng điểm so sánh tổng điểm giảm dần rồi mốc đạt điểm tăng dần. Bảng cấp độ so sánh cấp độ và EXP giảm dần rồi mốc đạt EXP tăng dần. Merge Sort chạy trong C#. Dense Ranking chỉ tăng hạng khi tiêu chí nghiệp vụ thay đổi. ID chỉ ổn định thứ tự hiển thị giữa người đồng hạng.
 - Lược đồ hỗ trợ một trò chơi mô phỏng. Top-N và quản lý thông tin trò chơi được thiết kế sau demo. Dữ liệu so sánh sáu thuật toán dùng tập dữ liệu riêng. Chat 06 triển khai mô phỏng trận và lịch sử thi đấu theo nhiệm vụ D.
+
+## Bổ sung từ Chat 06
+
+- `Matches.RequestId uniqueidentifier NULL` có chỉ mục duy nhất với điều kiện `RequestId IS NOT NULL`. Ứng dụng tạo mã cho mỗi biểu mẫu, gắn mã với người gửi và giữ trận đã lưu nếu cùng yêu cầu được gửi lại. Trận có từ trước migration có thể giữ giá trị NULL.
+- Ghi trận và cập nhật hai người chơi trong cùng lần lưu EF Core. Nếu phát hiện xung đột bằng `RowVersion`, dịch vụ đọc lại dữ liệu và thử lại có giới hạn. Hai mốc thành tích vẫn là hai cột riêng, cùng nhận giờ UTC của trận vì điểm và EXP đều tăng.
+- Lịch sử sử dụng kết quả của trận cùng mức thưởng cố định 50/100 hoặc 5/20. Nếu đồ án cho phép sửa mức thưởng trong tương lai, cần lưu mức thưởng theo trận hoặc phiên bản quy tắc để giữ đúng lịch sử.

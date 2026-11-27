@@ -1,4 +1,5 @@
 using GameRanking.Web.Data;
+using GameRanking.Web.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +18,7 @@ builder.Services.AddIdentityCore<IdentityUser>(options =>
 builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme).AddIdentityCookies();
 builder.Services.ConfigureApplicationCookie(options => options.LoginPath = "/Account/Login");
 builder.Services.AddControllersWithViews(options => options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()));
+builder.Services.AddScoped<MatchSimulation>();
 
 var app = builder.Build();
 

@@ -1,0 +1,31 @@
+@model MatchSimulationInput
+@{
+    ViewData["Title"] = "Mô phỏng trận đấu";
+}
+<h1>Mô phỏng trận đấu</h1>
+@if (ViewData["Result"] is MatchSimulationResult result)
+{
+    <div class="alert alert-success" role="status">
+        <h2 class="h5">Đã ghi nhận trận #@result.MatchId</h2>
+        <p class="mb-1"><strong>Thắng:</strong> @result.Winner (+@MatchAwards.Score(true) điểm, +@MatchAwards.Exp(true) EXP)</p>
+        <p class="mb-0"><strong>Thua:</strong> @result.Loser (+@MatchAwards.Score(false) điểm, +@MatchAwards.Exp(false) EXP)</p>
+    </div>
+}
+<p>Chọn hai người chơi. Hệ thống sẽ chọn ngẫu nhiên người thắng.</p>
+<form asp-action="Index" method="post" class="col-md-6">
+    <div asp-validation-summary="All" class="text-danger" role="alert"></div>
+    <input asp-for="RequestId" type="hidden" />
+    <label asp-for="FirstPlayerId" class="form-label"></label>
+    <select asp-for="FirstPlayerId" asp-items="ViewBag.Players" class="form-select mb-3">
+        <option value="">Chọn người chơi</option>
+    </select>
+    <label asp-for="SecondPlayerId" class="form-label"></label>
+    <select asp-for="SecondPlayerId" asp-items="ViewBag.Players" class="form-select mb-3">
+        <option value="">Chọn người chơi</option>
+    </select>
+    <button type="submit" class="btn btn-primary">Mô phỏng trận đấu</button>
+</form>
+<p class="mt-3">
+    <a asp-controller="Rankings" asp-action="Score">Bảng tổng điểm</a>
+    · <a asp-controller="Rankings" asp-action="Level">Bảng cấp độ</a>
+</p>

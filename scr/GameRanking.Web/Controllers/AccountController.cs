@@ -74,6 +74,30 @@ public sealed class AccountController(
         return View(input);
     }
 
+    [Authorize, HttpGet]
+    [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
+    public async Task<IActionResult> History(CancellationToken cancellationToken)
+    {
+        var userId = users.GetUserId(User);
+        if (userId is null)
+            return Challenge();
+
+        var playerId = await db.Players.Where(player => player.UserId == userId)
+            .Select(player => (int?)player.PlayerId).SingleOrDefaultAsync(cancellationToken);
+        if (playerId is null)
+            return NotFound();
+
+        var history = await (
+            from match in db.Matches
+            where match.WinnerPlayerId == playerId || match.LoserPlayerId == playerId
+            let won = match.WinnerPlayerId == playerId
+            join opponent in db.Players on (won ? match.LoserPlayerId : match.WinnerPlayerId) equals opponent.PlayerId
+            orderby match.PlayedAtUtc descending, match.MatchId descending
+            select new MatchHistoryRow(match.MatchId, match.PlayedAtUtc, opponent.DisplayName, won))
+            .ToListAsync(cancellationToken);
+        return View(history);
+    }
+
     [Authorize, HttpPost]
     public async Task<IActionResult> Logout()
     {

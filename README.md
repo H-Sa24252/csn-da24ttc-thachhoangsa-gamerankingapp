@@ -35,6 +35,15 @@ dotnet run --project scr/GameRanking.Web --no-build --launch-profile http
 
 Mở [trang chủ](http://localhost:5049), sau đó vào **Xếp hạng tổng điểm** hoặc **Xếp hạng cấp độ** để xem danh sách người chơi. Khi bảng người chơi còn trống, ứng dụng tạo 10 hồ sơ mẫu. Dùng **Đăng ký** để tạo tài khoản riêng và **Hồ sơ của tôi** để xem thành tích hoặc sửa tên hiển thị. Có thể mở `GameRanking.slnx` trong Visual Studio 2026 và chọn `GameRanking.Web` làm project khởi động.
 
-Ứng dụng dùng ASP.NET Core MVC, Identity và EF Core trên `net10.0`. Hai bảng xếp hạng dùng Merge Sort và Dense Ranking. Lược đồ đã chuẩn bị bảng kết quả cho mô phỏng trận và lịch sử cá nhân ở Chat 06.
+Sau khi đăng nhập, chọn **Mô phỏng trận đấu**, chọn hai người chơi khác nhau rồi gửi biểu mẫu. Hệ thống chọn ngẫu nhiên người thắng, lưu kết quả và cộng điểm, EXP cho cả hai người. Từ **Hồ sơ của tôi**, mở **Xem lịch sử thi đấu** để xem những trận mà người chơi của tài khoản đã tham gia.
 
-[Thiết kế dữ liệu ban đầu](thesis/html/thiet-ke-du-lieu-ban-dau.md) · [Kết quả kiểm thử v0.1](thesis/html/kiem-thu-gameranking-v0.1.md)
+Hai bảng xếp hạng dùng Merge Sort và Dense Ranking. Khi trang bảng xếp hạng đang hiển thị, các dòng tự cập nhật định kỳ khoảng 5 giây. Với database từ Chat 05, chạy `dotnet ef database update` theo lệnh đầy đủ ở trên để bổ sung khóa chống lưu trùng trước khi chạy website.
+
+Nếu cổng 5049 đang bận, chạy trên [localhost:5050](http://localhost:5050) bằng lệnh sau:
+
+```powershell
+dotnet build GameRanking.slnx -c Release --no-restore
+dotnet run --project scr/GameRanking.Web -c Release --no-build --launch-profile http -- --urls http://localhost:5050
+```
+
+[Thiết kế dữ liệu](thesis/html/thiet-ke-du-lieu-ban-dau.md) · [Kiểm thử nền tảng Chat 05](thesis/html/kiem-thu-gameranking-v0.1.md) · [Kiểm thử mô phỏng và lịch sử Chat 06](thesis/html/kiem-thu-chat-06.md)

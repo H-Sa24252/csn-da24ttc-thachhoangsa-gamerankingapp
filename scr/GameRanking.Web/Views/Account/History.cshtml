@@ -1,0 +1,40 @@
+@model IReadOnlyList<MatchHistoryRow>
+@{
+    ViewData["Title"] = "Lịch sử thi đấu";
+}
+<h1>Lịch sử thi đấu</h1>
+<p><a asp-action="Profile">Về hồ sơ của tôi</a></p>
+@if (Model.Count == 0)
+{
+    <p>Bạn chưa có trận đấu nào.</p>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Mã trận</th>
+                    <th scope="col">Thời điểm (UTC)</th>
+                    <th scope="col">Đối thủ</th>
+                    <th scope="col">Kết quả</th>
+                    <th scope="col">Điểm cộng</th>
+                    <th scope="col">EXP cộng</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var match in Model)
+            {
+                <tr>
+                    <th scope="row">@match.MatchId</th>
+                    <td>@match.PlayedAtUtc.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                    <td>@match.Opponent</td>
+                    <td>@(match.Won ? "Thắng" : "Thua")</td>
+                    <td>+@MatchAwards.Score(match.Won)</td>
+                    <td>+@MatchAwards.Exp(match.Won)</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+}

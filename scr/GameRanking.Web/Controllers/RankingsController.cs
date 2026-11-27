@@ -6,24 +6,27 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GameRanking.Web.Controllers;
 
+[ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
 public sealed class RankingsController(GameRankingDbContext db) : Controller
 {
     [HttpGet]
-    public async Task<IActionResult> Score()
+    public async Task<IActionResult> Score(bool rows, CancellationToken cancellationToken)
     {
         ViewData["Title"] = "Bảng xếp hạng tổng điểm";
-        return View("Index", PlayerRanking.ByScore(await ReadPlayersAsync()));
+        var ranking = PlayerRanking.ByScore(await ReadPlayersAsync(cancellationToken));
+        return rows ? PartialView("_Rows", ranking) : View("Index", ranking);
     }
 
     [HttpGet]
-    public async Task<IActionResult> Level()
+    public async Task<IActionResult> Level(bool rows, CancellationToken cancellationToken)
     {
         ViewData["Title"] = "Bảng xếp hạng cấp độ";
-        return View("Index", PlayerRanking.ByLevel(await ReadPlayersAsync()));
+        var ranking = PlayerRanking.ByLevel(await ReadPlayersAsync(cancellationToken));
+        return rows ? PartialView("_Rows", ranking) : View("Index", ranking);
     }
 
-    private Task<PublicPlayer[]> ReadPlayersAsync() => db.Players
+    private Task<PublicPlayer[]> ReadPlayersAsync(CancellationToken cancellationToken) => db.Players
         .Select(item => new PublicPlayer(item.PlayerId, item.DisplayName, item.TotalScore,
             item.TotalExp, item.Wins, item.Losses, item.ScoreReachedAtUtc, item.ExpReachedAtUtc))
-        .ToArrayAsync();
+        .ToArrayAsync(cancellationToken);
 }

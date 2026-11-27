@@ -36,10 +36,17 @@ namespace GameRanking.Web.Migrations
                     b.Property<DateTime>("PlayedAtUtc")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid?>("RequestId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("WinnerPlayerId")
                         .HasColumnType("int");
 
                     b.HasKey("MatchId");
+
+                    b.HasIndex("RequestId")
+                        .IsUnique()
+                        .HasFilter("[RequestId] IS NOT NULL");
 
                     b.HasIndex("LoserPlayerId", "PlayedAtUtc");
 
