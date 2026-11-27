@@ -10,6 +10,13 @@ public static class PlayerRanking
     public static IReadOnlyList<RankedPlayer> ByLevel(PublicPlayer[] players) =>
         Rank(players, CompareLevel);
 
+    internal static Comparison<PublicPlayer> Criteria(RankingCriterion criterion) => criterion switch
+    {
+        RankingCriterion.Score => CompareScore,
+        RankingCriterion.Level => CompareLevel,
+        _ => throw new ArgumentOutOfRangeException(nameof(criterion))
+    };
+
     private static int CompareScore(PublicPlayer left, PublicPlayer right)
     {
         var score = right.TotalScore.CompareTo(left.TotalScore);
@@ -26,10 +33,21 @@ public static class PlayerRanking
         return exp != 0 ? exp : left.ExpReachedAtUtc.CompareTo(right.ExpReachedAtUtc);
     }
 
-    private static IReadOnlyList<RankedPlayer> Rank(PublicPlayer[] players, Comparison<PublicPlayer> compare)
+    internal static Comparison<PublicPlayer> DisplayOrder(Comparison<PublicPlayer> compare) =>
+        (left, right) =>
+        {
+            var order = compare(left, right);
+            return order != 0 ? order : left.PlayerId.CompareTo(right.PlayerId);
+        };
+
+    private static RankedPlayer[] Rank(PublicPlayer[] players, Comparison<PublicPlayer> compare)
     {
-        var buffer = new PublicPlayer[players.Length];
-        MergeSort(players, buffer, 0, players.Length, compare);
+        PlayerSorting.Merge(players, DisplayOrder(compare));
+        return AssignRanks(players, compare);
+    }
+
+    internal static RankedPlayer[] AssignRanks(PublicPlayer[] players, Comparison<PublicPlayer> compare)
+    {
         var results = new RankedPlayer[players.Length];
         var rank = 0;
         for (var index = 0; index < players.Length; index++)
@@ -39,33 +57,5 @@ public static class PlayerRanking
             results[index] = new RankedPlayer(rank, players[index]);
         }
         return results;
-    }
-
-    private static void MergeSort(PublicPlayer[] players, PublicPlayer[] buffer, int start, int end,
-        Comparison<PublicPlayer> compare)
-    {
-        if (end - start < 2)
-            return;
-
-        var middle = start + (end - start) / 2;
-        MergeSort(players, buffer, start, middle, compare);
-        MergeSort(players, buffer, middle, end, compare);
-
-        var left = start;
-        var right = middle;
-        var index = start;
-        while (left < middle && right < end)
-        {
-            var order = compare(players[left], players[right]);
-            if (order == 0)
-                order = players[left].PlayerId.CompareTo(players[right].PlayerId);
-            buffer[index++] = order <= 0 ? players[left++] : players[right++];
-        }
-        while (left < middle)
-            buffer[index++] = players[left++];
-        while (right < end)
-            buffer[index++] = players[right++];
-
-        Array.Copy(buffer, start, players, start, end - start);
     }
 }

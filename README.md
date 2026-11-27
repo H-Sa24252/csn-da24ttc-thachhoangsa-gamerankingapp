@@ -47,3 +47,17 @@ dotnet run --project scr/GameRanking.Web -c Release --no-build --launch-profile 
 ```
 
 [Thiết kế dữ liệu](thesis/html/thiet-ke-du-lieu-ban-dau.md) · [Kiểm thử nền tảng Chat 05](thesis/html/kiem-thu-gameranking-v0.1.md) · [Kiểm thử mô phỏng và lịch sử Chat 06](thesis/html/kiem-thu-chat-06.md)
+
+## Thử nghiệm thuật toán
+
+Ưu tiên chạy bản Release theo lệnh trên. Chọn **Thử nghiệm thuật toán** trên thanh điều hướng hoặc mở [trang thử nghiệm trên cổng 5050](http://localhost:5050/SortingBenchmark). Trang dùng dữ liệu giả lập trong bộ nhớ và có thể mở khi chưa đăng nhập.
+
+Chọn tiêu chí, số người chơi từ các mức 100 đến 10.000, một thuật toán hoặc **So sánh cả sáu**, rồi bấm **Chạy thử nghiệm**. Có thể chọn đặc điểm dữ liệu và nhập cùng seed để tái tạo đầu vào với cùng cấu hình. Mỗi kết quả hiển thị trung vị của năm lần sắp xếp theo mili giây và trạng thái đối chiếu với kết quả tham chiếu.
+
+```powershell
+dotnet run --project tests/GameRanking.SortingChecks -c Release
+```
+
+[Sáu thuật toán](thesis/html/thuat-toan-sap-xep.md) · [Kết quả thực nghiệm](thesis/html/ket-qua-thuc-nghiem.md) · [Kiểm thử Chat 07](thesis/html/kiem-thu-chat-07.md)
+
+Chủ dự án nghiệm thu Chat 07 ngày 28/11/2026 với 12/12 ca đạt. Bộ số liệu nghiệm thu trên cổng 5050 được lưu riêng với bộ đo ban đầu trên cổng 5087.

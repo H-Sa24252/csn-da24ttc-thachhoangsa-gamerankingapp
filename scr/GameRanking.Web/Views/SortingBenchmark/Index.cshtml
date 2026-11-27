@@ -1,0 +1,71 @@
+@model SortingBenchmarkModel
+@{
+    ViewData["Title"] = "Thử nghiệm thuật toán";
+    var criterion = Model.Input.Criterion == RankingCriterion.Score ? "Tổng điểm" : "Cấp độ";
+}
+
+<h1>@ViewData["Title"]</h1>
+<p>Dữ liệu người chơi được tạo trong bộ nhớ. Mỗi thuật toán nhận cùng dữ liệu đầu vào và chạy 5 lần để lấy trung vị.</p>
+
+<form asp-action="Index" method="post" class="mb-4">
+    <div asp-validation-summary="All" class="text-danger" role="alert"></div>
+    <div class="row g-3 mb-3">
+        <div class="col-sm-6 col-lg">
+            <label asp-for="Input.Criterion" class="form-label"></label>
+            <select asp-for="Input.Criterion" asp-items="Html.GetEnumSelectList<RankingCriterion>()" class="form-select"></select>
+        </div>
+        <div class="col-sm-6 col-lg">
+            <label asp-for="Input.Size" class="form-label"></label>
+            <select asp-for="Input.Size" class="form-select">
+                @foreach (var size in BenchmarkInput.Sizes)
+                {
+                    <option value="@size">@size</option>
+                }
+            </select>
+        </div>
+        <div class="col-sm-6 col-lg">
+            <label asp-for="Input.Algorithm" class="form-label"></label>
+            <select asp-for="Input.Algorithm" asp-items="Html.GetEnumSelectList<SortingAlgorithm>()" class="form-select"></select>
+        </div>
+        <div class="col-sm-6 col-lg">
+            <label asp-for="Input.Data" class="form-label"></label>
+            <select asp-for="Input.Data" asp-items="Html.GetEnumSelectList<BenchmarkData>()" class="form-select"></select>
+        </div>
+        <div class="col-sm-6 col-lg">
+            <label asp-for="Input.Seed" class="form-label"></label>
+            <input asp-for="Input.Seed" class="form-control" required />
+        </div>
+    </div>
+    <button class="btn btn-primary" type="submit">Chạy thử nghiệm</button>
+</form>
+
+@if (Model.Results.Count > 0)
+{
+    <h2 class="h4">Kết quả</h2>
+    <p>Seed @Model.Input.Seed. Mỗi giá trị là trung vị của 5 lần đo riêng phần sắp xếp.</p>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Thuật toán</th>
+                    <th scope="col">Số người chơi</th>
+                    <th scope="col">Tiêu chí</th>
+                    <th scope="col">Trung vị (ms)</th>
+                    <th scope="col">Kiểm tra tính đúng đắn</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var result in Model.Results)
+                {
+                    <tr>
+                        <th scope="row">@result.Name</th>
+                        <td>@Model.Input.Size</td>
+                        <td>@criterion</td>
+                        <td>@result.MedianMilliseconds.ToString("F4")</td>
+                        <td>@(result.IsCorrect ? "Đạt" : "Không đạt")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
