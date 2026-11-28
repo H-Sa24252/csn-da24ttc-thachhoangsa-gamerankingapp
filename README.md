@@ -39,12 +39,15 @@ Sau khi đăng nhập, chọn **Mô phỏng trận đấu**, chọn hai người
 
 Hai bảng xếp hạng dùng Merge Sort và Dense Ranking. Khi trang bảng xếp hạng đang hiển thị, các dòng tự cập nhật định kỳ khoảng 5 giây. Với database từ Chat 05, chạy `dotnet ef database update` theo lệnh đầy đủ ở trên để bổ sung khóa chống lưu trùng trước khi chạy website.
 
-Nếu cổng 5049 đang bận, chạy trên [localhost:5050](http://localhost:5050) bằng lệnh sau:
+Với database demo đã có hai migration, dùng bản Release trên [localhost:5050](http://localhost:5050):
 
 ```powershell
+dotnet --version
 dotnet build GameRanking.slnx -c Release --no-restore
 dotnet run --project scr/GameRanking.Web -c Release --no-build --launch-profile http -- --urls http://localhost:5050
 ```
+
+Ngày 28/11/2026, quy trình này được xác minh lại với SDK 10.0.403. Chủ dự án chọn `GameRankingDemo` cho tổng duyệt và demo. Các trận hợp lệ tạo trong buổi trình diễn được giữ trong lịch sử.
 
 [Thiết kế dữ liệu](thesis/html/thiet-ke-du-lieu-ban-dau.md) · [Kiểm thử nền tảng Chat 05](thesis/html/kiem-thu-gameranking-v0.1.md) · [Kiểm thử mô phỏng và lịch sử Chat 06](thesis/html/kiem-thu-chat-06.md)
 
@@ -61,3 +64,13 @@ dotnet run --project tests/GameRanking.SortingChecks -c Release
 [Sáu thuật toán](thesis/html/thuat-toan-sap-xep.md) · [Kết quả thực nghiệm](thesis/html/ket-qua-thuc-nghiem.md) · [Kiểm thử Chat 07](thesis/html/kiem-thu-chat-07.md)
 
 Chủ dự án nghiệm thu Chat 07 ngày 28/11/2026 với 12/12 ca đạt. Bộ số liệu nghiệm thu trên cổng 5050 được lưu riêng với bộ đo ban đầu trên cổng 5087.
+
+## Trình diễn MVP v0.1
+
+[Hướng dẫn và kịch bản demo](thesis/html/huong-dan-demo-v0.1.md) · [Kiểm thử tổng thể Chat 08](thesis/html/kiem-thu-tong-the-v0.1.md) · [Trạng thái MVP và phương án dữ liệu](thesis/html/trang-thai-mvp-v0.1.md)
+
+## Nghiệm thu MVP v0.1
+
+Ngày 28/11/2026, chủ dự án nghiệm thu **10/10 giai đoạn, 139/139 tiêu chí thủ công**, tổng duyệt **9 phút**. Biên bản kỹ thuật ghi **20/20 ca C08 đạt** sau khi khôi phục SDK 10.0.403. Hai bộ kết quả được ghi riêng.
+
+Dùng `GameRankingDemo` trên `.\SQLDEV` cho trình diễn. Kiểm tra chỉ đọc sau tổng duyệt xác nhận 21 người chơi, 16 trận. Giữ bản Release dự phòng tại `scr/GameRanking.Web/bin/Chat08Verified/`.

@@ -50,3 +50,22 @@ Chủ dự án thực hiện ngày 28/11/2026 trên bản Release tại `http://
 Cả 36 kết quả trong bảng đều đạt đối chiếu. Ở TC02, Quick Sort chạy riêng với 100 người chơi, tổng điểm, dữ liệu ngẫu nhiên và seed 42, đạt đối chiếu với trung vị **0.1873 ms**. Ở TC09, chủ dự án ghi nhận tổng thời gian chờ trên website khoảng mười mấy giây. Thời gian chờ bao gồm cả các lượt đo và xử lý ngoài khoảng đo sắp xếp.
 
 Merge Sort có trung vị thấp nhất ở 3/6 cấu hình, Quick Sort ở 2/6 và Insertion Sort ở 1/6. Bubble và Insertion giảm rõ thời gian trên dữ liệu đã sắp xếp. Khi tăng từ 1.000 lên 10.000 hồ sơ ngẫu nhiên theo tổng điểm, thời gian của nhóm Merge, Quick và Heap tăng ít hơn nhóm Bubble, Selection và Insertion. Thời gian dao động giữa các phiên và dữ liệu hiện có chưa đủ để xác định nguyên nhân của mọi chênh lệch hoặc kết luận một thuật toán luôn nhanh nhất. Hai bảng chính tiếp tục dùng Merge Sort.
+
+## Bộ đo nghiệm thu Chat 08 của chủ dự án
+
+Chủ dự án xác nhận kết quả ngày 28/11/2026. Cả hai ca dùng dữ liệu ngẫu nhiên, seed 42. Mỗi giá trị là trung vị của năm lượt đo riêng phần sắp xếp.
+
+**NT08-08.** Quick Sort, tổng điểm, 100 người chơi, trung vị **0,0560 ms**, đạt đối chiếu. SQL giữ 21 người chơi và 15 trận.
+
+**NT08-09.** So sánh cả sáu thuật toán trên 1.000 người chơi.
+
+| Thuật toán | Tổng điểm (ms) | Cấp độ (ms) |
+| --- | ---: | ---: |
+| Bubble Sort | 10,9071 | 14,3139 |
+| Selection Sort | 3,8214 | 5,8164 |
+| Insertion Sort | 2,3200 | 2,9457 |
+| Merge Sort | 0,3092 | 0,3710 |
+| Quick Sort | 0,8740 | 0,3892 |
+| Heap Sort | 1,3269 | 1,2488 |
+
+Cả 12 kết quả đạt đối chiếu. Theo nghiệm thu thủ công, SQL giữ 21 người chơi, 15 trận và thành tích toàn bộ người chơi giữ nguyên. Merge Sort có trung vị thấp nhất ở cả hai tiêu chí trong lượt này và tiếp tục là mặc định. Các số đo chỉ mô tả cấu hình và lượt chạy này. Chênh lệch với Chat 07 chưa đủ để quy cho thay đổi hiệu năng của mã nguồn.
